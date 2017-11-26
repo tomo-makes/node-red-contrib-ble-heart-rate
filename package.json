@@ -1,0 +1,14 @@
+{
+  "name": "node-red-contrib-ble-heartrate",
+  "version": "0.1.0",
+  "description": "Retrieve data from BLE heartrate monitors",
+  "main": "contrib-ble-heartrate.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Tomo Masuda",
+  "license": "MIT",
+  "dependencies": {
+    "noble": "^1.8.1"
+  }
+}

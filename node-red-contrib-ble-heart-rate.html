@@ -1,0 +1,34 @@
+<script type="text/javascript">
+    RED.nodes.registerType('ble-heart-rate',{
+        category: 'advanced-input',
+        color: '#a6bbcf',
+        defaults: {
+            name: {value:""},
+            channelId: {value:"",required:true},
+            writeKey: {value:"",required:true},
+        },
+        inputs:1,
+        outputs:0,
+        icon: "arrow-in.png",
+        label: function() {
+            return this.name||"ble-heart-rate";
+        }
+    });
+</script>
+
+<script type="text/x-red" data-template-name="ble-heart-rate">
+    <div class="form-row">
+        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-name" placeholder="Name">
+    </div>
+</script>
+
+<script type="text/x-red" data-help-name="ble-heart-rate">
+    <p>Retrieve data from BLE heartrate monitors</p>
+    <p>
+        This node connects to a BLE heartrate monitor, retrieve metrics e.g. heartrate, rri etc, and pass them to the next node.
+    </p>
+    <p>
+        This node supports the standard BLE GATT - which is the heartrate monitor service and characteristic as "180d" and "2a37" accordingly.
+    </p>>
+</script>

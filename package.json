@@ -2,10 +2,25 @@
   "name": "node-red-contrib-ble-heart-rate",
   "version": "0.2.0",
   "description": "Retrieve data from BLE heart rate monitors",
-  "main": "contrib-ble-heartrate.js",
+  "main": "node.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "node-red": {
+    "nodes": {
+      "ble-heartrate": "node.js"
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tomo-makes/node-red-contrib-ble-heart-rate.git"
+  },
+  "keywords": [
+    "node-red",
+    "heartrate",
+    "heart",
+    "vital"
+  ],
   "author": "Tomo Masuda",
   "license": "MIT",
   "dependencies": {

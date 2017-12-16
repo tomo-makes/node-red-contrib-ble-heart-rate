@@ -1,29 +1,32 @@
 <script type="text/javascript">
-    RED.nodes.registerType('ble-heart-rate',{
+    RED.nodes.registerType('ble-heartrate',{
         category: 'advanced-input',
         color: '#a6bbcf',
         defaults: {
             name: {value:""},
-            channelId: {value:"",required:true},
-            writeKey: {value:"",required:true},
+            authorized_peripheral_address: {value:""}
         },
         inputs:1,
-        outputs:0,
-        icon: "arrow-in.png",
+        outputs:1,
+        icon: "bluetooth.png",
         label: function() {
-            return this.name||"ble-heart-rate";
+            return this.name||"ble-heartrate";
         }
     });
 </script>
-
-<script type="text/x-red" data-template-name="ble-heart-rate">
+ 
+<script type="text/x-red" data-template-name="ble-heartrate">
     <div class="form-row">
         <label for="node-input-name"><i class="icon-tag"></i> Name</label>
         <input type="text" id="node-input-name" placeholder="Name">
     </div>
+    <div class="form-row">
+        <label for="node-input-authorized_peripheral_address"><i class="icon-tag"></i> Authorized peripheral address</label>
+        <input type="text" id="node-input-authorized_peripheral_address" placeholder="AuthPeripheral">
+    </div>
 </script>
 
-<script type="text/x-red" data-help-name="ble-heart-rate">
+<script type="text/x-red" data-help-name="ble-heartrate">
     <p>Retrieve data from BLE heartrate monitors</p>
     <p>
         This node connects to a BLE heartrate monitor, retrieve metrics e.g. heartrate, rri etc, and pass them to the next node.

@@ -1,7 +1,7 @@
 {
-  "name": "node-red-contrib-ble-heartrate",
+  "name": "node-red-contrib-ble-heart-rate",
   "version": "0.1.0",
-  "description": "Retrieve data from BLE heartrate monitors",
+  "description": "Retrieve data from BLE heart rate monitors",
   "main": "contrib-ble-heartrate.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

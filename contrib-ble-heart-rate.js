@@ -1,19 +1,21 @@
-module.exports = function(RED) {
-  // Init
-  var noble = require('noble');
-  var authorized_ble_peripheral_address = config.authorized_ble_peripheral_address;
-  var serviceUUID = ["180d"];
-  var characteristicUUID = ["2a37"];
+ module.exports = function(RED) {
+  "use strict";
 
-  function bleHeartRate(config) {
+  function bleHeartrate(config) {
     RED.nodes.createNode(this,config);
     var node = this;
+
+    // Init
+    var noble = require('noble');
+    var authorized_ble_peripheral_address = config.authorized_peripheral_address;
+    var serviceUUID = ["180d"];
+    var characteristicUUID = ["2a37"];
 
     // --- BLE handling using noble --- //
     noble
       .on('stateChange', function(state) {
         if (state === 'poweredOn') { 
-          // scan for peripherals broadcasting the heart rate service and use the first one discovered
+          // Scan for peripherals broadcasting the heart rate service and use the first one discovered
           noble.startScanning(serviceUUID);
           console.log("Scanning BLE devices...");
           node.status({fill:"yellow",shape:"dot",text:"scanning"});
@@ -22,14 +24,14 @@ module.exports = function(RED) {
         }
       })
       .on('discover', function(peripheral) {
-        // stop scanning once a peripheral is discovered
+        // Stop scanning once a peripheral is discovered
         noble.stopScanning();
-        console.log("DISCOVERED: " + peripheral);
+        console.log("DISCOVERED: " + peripheral);        
         node.status({fill:"blue",shape:"dot",text:"discovered"});
 
 
-        if (authorized_ble_peripheral_address == null || peripheral.address === authorized_ble_peripheral_address) {
-          // connect to the peripheral
+        if (peripheral.address === authorized_ble_peripheral_address || authorized_ble_peripheral_address == "") {
+          // connect to the peripherals
           peripheral.connect(function(error) {
             console.log("CONNECTED: " + peripheral);
             node.status({fill:"green",shape:"dot",text:"connected"});
@@ -37,9 +39,9 @@ module.exports = function(RED) {
             peripheral.discoverSomeServicesAndCharacteristics(serviceUUID, characteristicUUID, function(error, services, characteristics){
               characteristics[0].notify(true, function(error){
                 characteristics[0].on('data', function(data, isNotification){
-                  // parsing the data
-                  rri1 = (data[3] << 8) + data[2];
-                  rri2 = (data[5] << 8) + data[4];
+                  // parsing RRIs
+                  var rri1 = (data[3] << 8) + data[2];
+                  var rri2 = (data[5] << 8) + data[4];
                   console.log('Flag: ' + data[0] + '  HBR:' + data[1] + '  RRI1:' + rri1 + '  RRI2:' + rri2);
                   var formatted_time = new Date().toISOString();
 
@@ -50,9 +52,7 @@ module.exports = function(RED) {
                     "rri1": rri1,
                     "rri2": rri2
                   };
-
-                  msg.payload = args;
-                  node.send(msg);
+                  node.send({payload: args});
 
                 });
               });
@@ -76,12 +76,12 @@ module.exports = function(RED) {
                 node.status({fill:"yellow",shape:"dot",text:"scanning"});
           }, 10000);
         }
+
       });
   }
 
-  RED.nodes.registerType("ble-heart-rate",bleHeartRate);
+  RED.nodes.registerType("ble-heartrate",bleHeartrate);
 }
-
 
 
 
